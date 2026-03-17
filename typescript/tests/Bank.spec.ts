@@ -10,9 +10,9 @@ describe('Bank', function () {
     const to = Currency.USD;
     const baseMoney = new Money(10,Currency.EUR);
     //ACT
-    const amount = bank.convert(to, baseMoney);
+    const convertedMoney = bank.convert(to, baseMoney);
     //ASSERT
-    expect(amount.amount).toBe(12);
+    expect(convertedMoney.amount).toBe(12);
   });
 
   it('Should test if converting two same currencies return same value', () => {
@@ -21,9 +21,9 @@ describe('Bank', function () {
     const to = Currency.EUR;
     const baseMoney = new Money(10,Currency.EUR);
     //ACT
-    const amount = bank.convert(to, baseMoney);
+    const convertedMoney = bank.convert(to, baseMoney);
     //ASSERT
-    expect(amount.amount).toBe(10);
+    expect(convertedMoney.amount).toBe(10);
   });
 
   it('Should test if converting without an exchange rate return an error', () => {
@@ -32,9 +32,9 @@ describe('Bank', function () {
     const to = Currency.KRW;
     const baseMoney = new Money(10,Currency.EUR);
     //ACT
-    const amount = () => bank.convert(to, baseMoney);
+    const convertedMoney = () => bank.convert(to, baseMoney);
     //ASSERT
-    expect(amount).toThrowError(MissingExchangeRateError);
+    expect(convertedMoney).toThrowError(MissingExchangeRateError);
   });
 
   it('convert with different exchange rates returns different numbers', () => {
