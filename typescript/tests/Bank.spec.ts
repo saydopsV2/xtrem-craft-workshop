@@ -114,4 +114,6 @@ describe('Bank', function () {
 
     expect(result).toBe(true);
   });
+
+  it('Should use the pivot if currencies are different from the pivot', () => {});
 });

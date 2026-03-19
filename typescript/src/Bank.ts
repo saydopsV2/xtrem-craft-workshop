@@ -58,20 +58,16 @@ export class Bank {
     let rate: number | undefined = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ?? 0;
     if (inverseExchangeRateExists) {
       rate = this._exchangeRates.get(this.getExchangeRateKey(to, fromCurrency));
-      console.log(rate);
       rate = rate ? 1 / rate : 0;
-      console.log(rate);
     }
     const newAmount = baseMoney.amount * rate;
     return new Money(newAmount, to);
   }
 
   roundTrip(currency: Currency, moneyToConvert: Money) {
-    const threshold = 10 ^ -4;
+    const threshold = 0.0001;
     const result = this.convert(currency, moneyToConvert);
     const trip = this.convert(moneyToConvert.currency, result);
-    console.log(Math.abs(moneyToConvert.amount - trip.amount));
-    console.log(result.amount, trip.amount);
     return Math.abs(moneyToConvert.amount - trip.amount) < threshold;
   }
 
