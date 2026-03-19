@@ -101,4 +101,17 @@ describe('Bank', function () {
     expect(result.amount).not.toBe(11);
     expect(result.amount).toBe(12);
   });
+
+  it('should compute a close aproximation of round tripping conversion', () => {
+    //Arrange
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.1).withPivotCurrency(Currency.EUR);
+    const bank = bankDataBuilder.build();
+    const moneyToConvert = new Money(10, Currency.EUR);
+
+    //Act
+    const result = bank.roundTrip(Currency.USD, moneyToConvert);
+
+    expect(result).toBe(true);
+  });
 });

@@ -58,6 +58,8 @@ export class Bank {
     return new Money(newAmount, to);
   }
 
+  roundTrip(USD: Currency, moneyToConvert: Money) {}
+
   private getExchangeRateKey(from: Currency, to: Currency): string {
     return `${from}->${to}`;
   }
