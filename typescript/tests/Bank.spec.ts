@@ -87,4 +87,11 @@ describe('Bank', function () {
     //ASSERT
     expect(result).toThrow(Error);
   });
+
+  it('should update exchange rate', () => {
+    // Arrange
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withExchangeRate(Currency.EUR, 1.2).withPivotCurrency(Currency.EUR);
+    const bank = bankDataBuilder.build();
+  });
 });
