@@ -11,7 +11,6 @@ describe('Bank', function () {
     const createBank = () => dataBuilder.build();
 
     // Assert
-    // expect(createBank).toThrowWithMessage(Error, 'The bank should have a pivot currency');
     try {
       createBank();
     } catch (error) {
