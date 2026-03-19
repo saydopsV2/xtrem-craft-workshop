@@ -55,9 +55,12 @@ export class Bank {
       return baseMoney;
     }
 
-    let rate = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ?? 0;
+    let rate: number | undefined = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ?? 0;
     if (inverseExchangeRateExists) {
-      rate = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ^ -1 ?? 0;
+      rate = this._exchangeRates.get(this.getExchangeRateKey(to, fromCurrency));
+      console.log(rate);
+      rate = rate ? 1 / rate : 0;
+      console.log(rate);
     }
     const newAmount = baseMoney.amount * rate;
     return new Money(newAmount, to);
