@@ -46,7 +46,7 @@ export class Bank {
     const fromCurrency = baseMoney.currency;
     const isSameCurrency = fromCurrency !== to;
     const exchangeRateIsMissing: boolean = isSameCurrency && !this._exchangeRates.has(this.getExchangeRateKey(fromCurrency, to));
-    const inverseExchangeRateExists: boolean = isSameCurrency && this._exchangeRates.has(this.getExchangeRateKey(to, fromCurrency));
+    const inverseExchangeRateExists: boolean = this._exchangeRates.has(this.getExchangeRateKey(to, fromCurrency));
     if (exchangeRateIsMissing && !inverseExchangeRateExists) {
       throw new MissingExchangeRateError(fromCurrency, to);
     }
