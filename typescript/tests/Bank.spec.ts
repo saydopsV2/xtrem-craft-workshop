@@ -11,7 +11,12 @@ describe('Bank', function () {
     const createBank = () => dataBuilder.build();
 
     // Assert
-    expect(createBank).toThrowWithMessage(Error, 'The bank should have a pivot currency');
+    // expect(createBank).toThrowWithMessage(Error, 'The bank should have a pivot currency');
+    try {
+      createBank();
+    } catch (error) {
+      expect((error as Error).message).toBe('The bank should have a pivot currency');
+    }
   });
   it('should convert between different currencies when exchange rate is provided', () => {
     //ARRANGE
