@@ -1,4 +1,3 @@
-import { Bank } from '../src/Bank';
 import { Currency } from '../src/Currency';
 import { MissingExchangeRateError } from '../src/MissingExchangeRateError';
 import Money from '../src/Money';
@@ -46,7 +45,10 @@ describe('Bank', function () {
 
   it('Should test if converting without an exchange rate return an error', () => {
     //ARRANGE
-    const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(Currency.EUR);
+    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    const bank = bankDataBuilder.build();
     const to = Currency.KRW;
     const baseMoney = new Money(10, Currency.EUR);
     //ACT
@@ -59,7 +61,10 @@ describe('Bank', function () {
     //ARRANGE
     const currency1 = Currency.EUR;
     const currency2 = Currency.USD;
-    const bank = Bank.createWithExchangeRate(currency1, currency2, 1.2);
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(currency1);
+    bankDataBuilder.withExchangeRate(currency1, currency2, 1.2);
+    const bank = bankDataBuilder.build();
     const to = currency2;
     const baseMoney = new Money(10, currency1);
     //ACT

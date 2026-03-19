@@ -1,7 +1,7 @@
-import { Bank } from '../src/Bank';
 import { Currency } from '../src/Currency';
+import Money from '../src/Money';
 import { Portfolio } from '../src/Portfolio';
-import Money from "../src/Money";
+import BankDataBuilder from './BankDataBuilder';
 
 describe('portfolio', function () {
   test('should evaluate an empty portfolio', () => {
@@ -27,8 +27,10 @@ describe('portfolio', function () {
   test('should sum eur and usd together and return the right usd amount', () => {
     //ARRANGE
     const portfolio = new Portfolio();
-    const bank = new Bank();
-    bank.addExchangeRate(Currency.EUR, Currency.USD, 1.4);
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(Currency.EUR);
+    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.4);
+    const bank = bankDataBuilder.build();
     portfolio.addMoneyInACurrency(new Money(10, Currency.EUR));
     portfolio.addMoneyInACurrency(new Money(1, Currency.USD));
     //ACT
