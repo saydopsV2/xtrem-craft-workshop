@@ -7,18 +7,6 @@ export class Bank {
 
   private readonly _pivotCurrency: Currency;
 
-  /**
-   * Convert from one currency to another using the provided exchange rate.
-   * @param from
-   * @param to
-   * @param rate
-   */
-  static createWithExchangeRate(from: Currency, to: Currency, rate: number): Bank {
-    const bank = new Bank();
-    bank.addExchangeRate(from, to, rate);
-    return bank;
-  }
-
   constructor(pivotCurrency?: Currency) {
     if (!pivotCurrency) {
       throw new Error('The bank should have a pivot currency');
@@ -32,8 +20,8 @@ export class Bank {
    * @param to
    * @param rate
    */
-  addExchangeRate(from: Currency, to: Currency, rate: number): void {
-    this._exchangeRates.set(this.getExchangeRateKey(from, to), rate);
+  addExchangeRate(to: Currency, rate: number): void {
+    this._exchangeRates.set(this.getExchangeRateKey(this._pivotCurrency, to), rate);
   }
 
   /**

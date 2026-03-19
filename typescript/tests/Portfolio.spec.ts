@@ -29,7 +29,7 @@ describe('portfolio', function () {
     const portfolio = new Portfolio();
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR);
-    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.4);
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.4);
     const bank = bankDataBuilder.build();
     portfolio.addMoneyInACurrency(new Money(10, Currency.EUR));
     portfolio.addMoneyInACurrency(new Money(1, Currency.USD));

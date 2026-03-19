@@ -19,7 +19,7 @@ describe('Bank', function () {
     //ARRANGE
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR);
-    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.2);
     const bank = bankDataBuilder.build();
     const to = Currency.USD;
     const baseMoney = new Money(10, Currency.EUR);
@@ -33,7 +33,7 @@ describe('Bank', function () {
     //ARRANGE
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR);
-    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.2);
     const bank = bankDataBuilder.build();
     const to = Currency.EUR;
     const baseMoney = new Money(10, Currency.EUR);
@@ -47,7 +47,7 @@ describe('Bank', function () {
     //ARRANGE
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR);
-    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.2);
     const bank = bankDataBuilder.build();
     const to = Currency.KRW;
     const baseMoney = new Money(10, Currency.EUR);
@@ -63,16 +63,22 @@ describe('Bank', function () {
     const currency2 = Currency.USD;
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(currency1);
-    bankDataBuilder.withExchangeRate(currency1, currency2, 1.2);
+    bankDataBuilder.withExchangeRate(currency2, 1.2);
     const bank = bankDataBuilder.build();
     const to = currency2;
     const baseMoney = new Money(10, currency1);
     //ACT
     const result12 = bank.convert(to, baseMoney);
-    bank.addExchangeRate(currency1, currency2, 1.3);
+    bank.addExchangeRate(currency2, 1.3);
     const result13 = bank.convert(to, baseMoney);
     //ASSERT
     expect(result12.amount).toBe(12);
     expect(result13.amount).toBe(13);
+  });
+  it('should fail if exchange rate is below 0', () => {
+    // Arrange
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(Currency.EUR).withExchangeRate(Currency.USD, 1.1);
+    const bank = bankDataBuilder.build();
   });
 });
