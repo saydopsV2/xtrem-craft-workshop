@@ -21,6 +21,9 @@ export class Bank {
    * @param rate
    */
   addExchangeRate(to: Currency, rate: number): void {
+    if (rate < 0) {
+      throw new Error('the rate must be positive');
+    }
     this._exchangeRates.set(this.getExchangeRateKey(this._pivotCurrency, to), rate);
   }
 

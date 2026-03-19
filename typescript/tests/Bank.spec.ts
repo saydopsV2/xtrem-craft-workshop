@@ -80,5 +80,11 @@ describe('Bank', function () {
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR).withExchangeRate(Currency.USD, 1.1);
     const bank = bankDataBuilder.build();
+
+    //ACT
+    const result = () => bank.addExchangeRate(Currency.KRW, -9.7);
+
+    //ASSERT
+    expect(result).toThrow(Error);
   });
 });
