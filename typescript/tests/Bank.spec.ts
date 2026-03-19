@@ -9,7 +9,6 @@ describe('Bank', function () {
     // Act
     const dataBuilder = new BankDataBuilder();
     const createBank = () => dataBuilder.build();
-
     // Assert
     try {
       createBank();
@@ -21,7 +20,8 @@ describe('Bank', function () {
     //ARRANGE
     const bankDataBuilder = new BankDataBuilder();
     bankDataBuilder.withPivotCurrency(Currency.EUR);
-    const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    const bank = bankDataBuilder.build();
     const to = Currency.USD;
     const baseMoney = new Money(10, Currency.EUR);
     //ACT

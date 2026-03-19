@@ -3,9 +3,9 @@ import { Currency } from '../src/Currency';
 
 export default class BankDataBuilder {
   private _pivotCurrency: Currency | undefined;
-  private from: Currency | undefined;
-  private to: Currency | undefined;
-  private rate: number | undefined;
+  private from: Currency = Currency.EUR;
+  private to: Currency = Currency.USD;
+  private rate: number = 0.9;
 
   withPivotCurrency(currency: Currency) {
     this._pivotCurrency = currency;
@@ -18,6 +18,11 @@ export default class BankDataBuilder {
   }
 
   build() {
-    return new Bank(this._pivotCurrency);
+    const bank = new Bank(this._pivotCurrency);
+    const hasExchangeRate = this.from !== undefined && this.to !== undefined && this.rate !== undefined;
+    if (hasExchangeRate) {
+      bank.addExchangeRate(this.from, this.to, this.rate);
+    }
+    return bank;
   }
 }
