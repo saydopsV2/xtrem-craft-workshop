@@ -32,7 +32,10 @@ describe('Bank', function () {
 
   it('Should test if converting two same currencies return same value', () => {
     //ARRANGE
-    const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(Currency.EUR);
+    bankDataBuilder.withExchangeRate(Currency.EUR, Currency.USD, 1.2);
+    const bank = bankDataBuilder.build();
     const to = Currency.EUR;
     const baseMoney = new Money(10, Currency.EUR);
     //ACT
