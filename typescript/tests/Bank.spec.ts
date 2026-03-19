@@ -7,7 +7,8 @@ import BankDataBuilder from './BankDataBuilder';
 describe('Bank', function () {
   it('should throw if bank is not created with a pivot currency', () => {
     // Act
-    const createBank = () => BankDataBuilder.build();
+    const dataBuilder = new BankDataBuilder();
+    const createBank = () => dataBuilder.build();
 
     // Assert
     expect(createBank).toThrowWithMessage(Error, 'The bank should have a pivot currency');

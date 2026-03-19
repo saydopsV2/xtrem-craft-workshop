@@ -5,6 +5,8 @@ import { MissingExchangeRateError } from './MissingExchangeRateError';
 export class Bank {
   private readonly _exchangeRates: Map<string, number> = new Map();
 
+  private readonly _pivotCurrency: Currency;
+
   /**
    * Convert from one currency to another using the provided exchange rate.
    * @param from
@@ -15,6 +17,13 @@ export class Bank {
     const bank = new Bank();
     bank.addExchangeRate(from, to, rate);
     return bank;
+  }
+
+  constructor(pivotCurrency?: Currency) {
+    if (!pivotCurrency) {
+      throw new Error('The bank should have a pivot currency');
+    }
+    this._pivotCurrency = pivotCurrency;
   }
 
   /**
