@@ -19,6 +19,8 @@ describe('Bank', function () {
   });
   it('should convert between different currencies when exchange rate is provided', () => {
     //ARRANGE
+    const bankDataBuilder = new BankDataBuilder();
+    bankDataBuilder.withPivotCurrency(Currency.EUR);
     const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
     const to = Currency.USD;
     const baseMoney = new Money(10, Currency.EUR);
