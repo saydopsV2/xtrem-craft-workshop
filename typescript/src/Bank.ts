@@ -44,21 +44,32 @@ export class Bank {
    */
   convert(to: Currency, baseMoney: Money): Money {
     const fromCurrency = baseMoney.currency;
-    const exchangeRateIsMissing: boolean = fromCurrency !== to && !this._exchangeRates.has(this.getExchangeRateKey(fromCurrency, to));
-
-    if (exchangeRateIsMissing) {
+    const isSameCurrency = fromCurrency !== to;
+    const exchangeRateIsMissing: boolean = isSameCurrency && !this._exchangeRates.has(this.getExchangeRateKey(fromCurrency, to));
+    const inverseExchangeRateExists: boolean = isSameCurrency && this._exchangeRates.has(this.getExchangeRateKey(to, fromCurrency));
+    if (exchangeRateIsMissing && !inverseExchangeRateExists) {
       throw new MissingExchangeRateError(fromCurrency, to);
     }
 
-    if (to === fromCurrency) {
+    if (!isSameCurrency) {
       return baseMoney;
     }
-    const rate = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ?? 0;
+
+    let rate = this._exchangeRates.get(this.getExchangeRateKey(fromCurrency, to)) ?? 0;
+    if (inverseExchangeRateExists) {
+      rate = this._exchangeRates.get(this.getExchangeRateKey(to, fromCurrency)) ?? 0;
+    }
     const newAmount = baseMoney.amount * rate;
     return new Money(newAmount, to);
   }
 
-  roundTrip(USD: Currency, moneyToConvert: Money) {}
+  roundTrip(currency: Currency, moneyToConvert: Money) {
+    const threshold = 10 ^ -4;
+    const result = this.convert(currency, moneyToConvert);
+    const trip = this.convert(this._pivotCurrency, result);
+    console.log(Math.abs(moneyToConvert.amount - trip.amount));
+    return Math.abs(moneyToConvert.amount - trip.amount) < threshold;
+  }
 
   private getExchangeRateKey(from: Currency, to: Currency): string {
     return `${from}->${to}`;
