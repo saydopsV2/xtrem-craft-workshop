@@ -1,14 +1,22 @@
 import { Bank } from '../src/Bank';
 import { Currency } from '../src/Currency';
 import { MissingExchangeRateError } from '../src/MissingExchangeRateError';
-import Money from "../src/Money";
+import Money from '../src/Money';
+import BankDataBuilder from './BankDataBuilder';
 
 describe('Bank', function () {
+  it('should throw if bank is not created with a pivot currency', () => {
+    // Act
+    const createBank = () => BankDataBuilder.build();
+
+    // Assert
+    expect(createBank).toThrowWithMessage(Error, 'The bank should have a pivot currency');
+  });
   it('should convert between different currencies when exchange rate is provided', () => {
     //ARRANGE
     const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
     const to = Currency.USD;
-    const baseMoney = new Money(10,Currency.EUR);
+    const baseMoney = new Money(10, Currency.EUR);
     //ACT
     const convertedMoney = bank.convert(to, baseMoney);
     //ASSERT
@@ -19,7 +27,7 @@ describe('Bank', function () {
     //ARRANGE
     const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
     const to = Currency.EUR;
-    const baseMoney = new Money(10,Currency.EUR);
+    const baseMoney = new Money(10, Currency.EUR);
     //ACT
     const convertedMoney = bank.convert(to, baseMoney);
     //ASSERT
@@ -30,7 +38,7 @@ describe('Bank', function () {
     //ARRANGE
     const bank = Bank.createWithExchangeRate(Currency.EUR, Currency.USD, 1.2);
     const to = Currency.KRW;
-    const baseMoney = new Money(10,Currency.EUR);
+    const baseMoney = new Money(10, Currency.EUR);
     //ACT
     const convertedMoney = () => bank.convert(to, baseMoney);
     //ASSERT
@@ -43,7 +51,7 @@ describe('Bank', function () {
     const currency2 = Currency.USD;
     const bank = Bank.createWithExchangeRate(currency1, currency2, 1.2);
     const to = currency2;
-    const baseMoney = new Money(10,currency1);
+    const baseMoney = new Money(10, currency1);
     //ACT
     const result12 = bank.convert(to, baseMoney);
     bank.addExchangeRate(currency1, currency2, 1.3);
