@@ -26,6 +26,16 @@ export class Bank {
     }
     this._exchangeRates.set(this.getExchangeRateKey(this._pivotCurrency, to), rate);
   }
+  /**
+   * Updates an existing exchange rate
+   * @param to
+   * @param rate
+   */
+  updateExchangeRate(to: Currency, rate: number) {
+    const rateKey = this.getExchangeRateKey(this._pivotCurrency, to);
+    this._exchangeRates.delete(rateKey);
+    this.addExchangeRate(to, rate);
+  }
 
   /**
    * Convert from one currency to another using the exchange rate provided in the bank.

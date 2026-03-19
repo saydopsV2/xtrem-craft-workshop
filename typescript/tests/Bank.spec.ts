@@ -91,7 +91,14 @@ describe('Bank', function () {
   it('should update exchange rate', () => {
     // Arrange
     const bankDataBuilder = new BankDataBuilder();
-    bankDataBuilder.withExchangeRate(Currency.EUR, 1.2).withPivotCurrency(Currency.EUR);
+    bankDataBuilder.withExchangeRate(Currency.USD, 1.2).withPivotCurrency(Currency.EUR);
     const bank = bankDataBuilder.build();
+    const moneyToConvert = new Money(10, Currency.EUR);
+    // Act
+    bank.updateExchangeRate(Currency.USD, 1.3);
+    const result: Money = bank.convert(Currency.USD, moneyToConvert);
+    // Assert
+    expect(result.amount).not.toBe(12);
+    expect(result.amount).toBe(13);
   });
 });
